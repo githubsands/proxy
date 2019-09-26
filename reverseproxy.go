@@ -67,6 +67,25 @@ var (
 					l.Printf(err.Error())
 				}
 
+			case "HEAD":
+				l.Printf("Making HTTPRequest: %v, To: %v, Dumping headers: %v", r.Method, r.URL.String(), r.Header)
+				_, err := c.Do(r)
+				if err != nil {
+					l.Printf("HTTPResponse HEAD received obtained")
+				}
+
+				break
+
+			/*
+				case "DELETE":
+
+				case "CONNECT":
+
+				case "PATCH":
+
+				case "HEAD":
+			*/
+
 			default:
 				l.Printf("Request %v has no specified method.\nMethod given %v", r, r.Method)
 				break

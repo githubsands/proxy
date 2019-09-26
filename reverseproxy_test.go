@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "github.com/davecgh/go-spew/spew"
+	"github.com/davecgh/go-spew/spew"
 	// "io/ioutil"
 	// "bytes"
 	"net/http"
@@ -119,4 +119,24 @@ func TestMainHandlerPut(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Unable to reach endpoint: %v", err.Error())
 	}
+}
+
+// TestMainHandlerHead does not return a response
+func TestMainHandlerHead(t *testing.T) {
+	var (
+		l = createLogger()
+	)
+
+	var ts = httptest.NewServer(http.HandlerFunc(createHandler(l, nil)))
+	defer ts.Close()
+
+	req, _ := http.NewRequest(http.MethodHead, ts.URL, nil)
+
+	c := ts.Client()
+	_, err := c.Do(req)
+	if err != nil {
+		t.Fatalf("Unable to reach endpoint: %v", err.Error())
+	}
+
+	spew.Dump(l)
 }
